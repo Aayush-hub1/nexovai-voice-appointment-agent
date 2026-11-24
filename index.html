@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f3">
+  <title>St. Jude Outpatient — Front Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:light;--paper:#f5f6f3;--white:#fff;--line:#dfe3dc;--ink:#202a27;--muted:#75807b;--teal:#134e4a;--teal-soft:#e9f1ed;--mint:#dff0e6;--mono:"JetBrains Mono",monospace;--sans:"DM Sans",sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;color:var(--ink);font-family:var(--sans);background-color:var(--paper);background-image:radial-gradient(#d9ded8 0.65px,transparent 0.65px);background-size:9px 9px;min-height:100vh}
+    button{font:inherit}
+    .shell{max-width:1380px;margin:0 auto;padding:0 40px 42px}
+    .topbar{min-height:88px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .identity{display:flex;align-items:center;gap:13px}.seal{width:38px;height:38px;border:1px solid #b9c9c1;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--teal);font-size:20px}
+    .clinic-name{font-weight:600;font-size:15px;letter-spacing:-.02em}.clinic-sub{font-size:11px;color:var(--muted);margin-top:3px}
+    .top-actions{display:flex;align-items:center;gap:16px}.open-indicator{font-size:12px;color:#597166;display:flex;align-items:center;gap:8px}.open-indicator:before{content:"";width:7px;height:7px;border-radius:50%;background:#5b9c76;box-shadow:0 0 0 3px #dcebe1}
+    .call-button{height:42px;padding:0 16px;border:0;border-radius:7px;color:#fff;background:var(--teal);font-weight:600;font-size:13px;cursor:pointer;transition:background .16s,transform .16s}.call-button:hover{background:#0d403d;transform:translateY(-1px)}
+    .intro{padding:32px 0 24px;display:flex;align-items:end;justify-content:space-between;gap:20px}.kicker{text-transform:uppercase;letter-spacing:.13em;font-size:10px;font-weight:700;color:#78837e;margin:0 0 8px}.intro h1{font-size:25px;letter-spacing:-.045em;font-weight:600;margin:0}.intro-note{font-size:12px;color:var(--muted);margin:0}.availability-summary{display:flex;align-items:center;gap:12px}.reset-button{padding:0;border:0;background:none;color:#77837d;font-size:11px;text-decoration:underline;text-decoration-color:#cdd5cf;text-underline-offset:3px;cursor:pointer}.reset-button:hover{color:var(--teal)}
+    .board{display:grid;grid-template-columns:minmax(350px,.88fr) minmax(520px,1.35fr);gap:16px;align-items:start}
+    .surface{background:var(--white);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+    .surface-head{height:66px;padding:0 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+    .surface-head h2{font-size:14px;font-weight:600;margin:0;letter-spacing:-.015em}.head-note{font-size:11px;color:var(--muted)}
+    .doctor-card{padding:17px 20px 15px;border-bottom:1px solid #edf0ec}.doctor-card:last-child{border-bottom:0}
+    .doctor-line{display:flex;align-items:center;gap:11px}.doctor-mark{width:38px;height:38px;border-radius:50%;background:#e8efeb;color:#315d4d;display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+    .doctor-name{font-size:13px;font-weight:600}.doctor-meta{color:var(--muted);font-size:11px;margin-top:3px}.room{font:10px var(--mono);color:#727d77;margin-left:auto;white-space:nowrap}
+    .slot-label{font-size:10px;color:#87918b;margin:14px 0 8px 49px}.slots{display:flex;flex-wrap:wrap;gap:6px;margin-left:49px}.slot{font:10px var(--mono);padding:6px 8px;border:1px solid #e1e7e1;border-radius:5px;color:#49635a;background:#fafbf9;white-space:nowrap}.slot.empty{font:11px var(--sans);color:#999;border-style:dashed}
+    .table-wrap{overflow:auto}.appointments{width:100%;border-collapse:collapse;white-space:nowrap}.appointments th{text-align:left;padding:13px 15px;background:#fafbf9;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#818b85;border-bottom:1px solid var(--line)}.appointments td{padding:14px 15px;font-size:11px;border-bottom:1px solid #edf0ec}.appointments tr:last-child td{border-bottom:0}
+    .reference,.appointment-time,.caller{font-family:var(--mono);font-size:10px!important}.ref{color:var(--teal);font-weight:500}.doctor-cell{font-size:11px!important}.doctor-cell small{display:block;color:#87918b;font-size:10px;margin-top:3px}
+    .status{font-size:9px;padding:4px 7px;border-radius:20px;color:#46745c;background:#edf5ef}.status.cancelled{color:#89695d;background:#f5efec}
+    .empty-row{text-align:center!important;padding:38px 12px!important;color:#89928d!important;font-size:12px!important}
+    .activity{margin-top:16px}.activity-content{padding:17px 20px;min-height:92px;max-height:210px;overflow:auto}.activity-empty{color:#929a95;font-size:12px}.transcript-line{display:grid;grid-template-columns:52px 1fr;gap:12px;margin:0 0 12px;font-size:11px;line-height:1.55}.transcript-line:last-child{margin-bottom:0}.transcript-role{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#849089;padding-top:2px}.transcript-role.caller-role{color:#406f62}.transcript-text{color:#394440}
+    .toast{position:fixed;left:50%;top:18px;z-index:20;transform:translate(-50%,-12px);opacity:0;pointer-events:none;background:#fff;border:1px solid var(--line);border-left:3px solid var(--teal);box-shadow:0 8px 25px #19332c1c;border-radius:6px;padding:12px 16px;font-size:12px;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.cancel{border-left-color:#b1775f}
+    .call-layer{position:fixed;inset:0;z-index:15;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(28,39,35,.29);backdrop-filter:blur(4px)}.call-layer.open{display:flex}
+    .phone{width:min(380px,100%);height:min(680px,calc(100vh - 36px));min-height:540px;background:#fbfcfa;border:1px solid #ccd5ce;border-radius:25px;box-shadow:0 22px 80px #172a243d;display:flex;flex-direction:column;padding:17px 17px 14px;overflow:hidden}
+    .phone-top{display:flex;align-items:center;justify-content:space-between;color:#77827b;font-size:10px}.phone-top button{border:0;background:#f0f3f0;color:#6b756f;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer}
+    .call-state{margin:17px auto 0;border:1px solid #e1e7e1;border-radius:30px;padding:6px 10px;font-size:10px;color:#63716a;display:flex;gap:7px;align-items:center}.call-state:before{content:"";width:6px;height:6px;border-radius:50%;background:#d6a86a}.call-state.connected:before{background:#5d9c76}.call-state.ended:before{background:#9da49f}
+    .caller-card{text-align:center;padding:17px 0 4px}.caller-emblem{width:64px;height:64px;border-radius:50%;margin:0 auto 10px;background:#e6eee8;border:1px solid #d6e1d8;display:grid;place-items:center;color:var(--teal);font-size:23px}.caller-card h2{font-size:15px;font-weight:600;margin:0}.timer{font:11px var(--mono);color:#7b8680;margin-top:6px}
+    .wave{height:39px;display:flex;align-items:center;justify-content:center;gap:4px}.wave i{display:block;height:10px;width:3px;border-radius:4px;background:#649084;opacity:.72;animation:wave 1s ease-in-out infinite}.wave i:nth-child(3n){animation-delay:.21s}.wave i:nth-child(2n){animation-delay:.12s}.wave.paused i{animation-play-state:paused;opacity:.28}@keyframes wave{50%{height:25px;opacity:1}}
+    .conversation{flex:1;min-height:110px;overflow:auto;background:#f2f5f1;border:1px solid #e6ebe5;border-radius:12px;padding:12px 11px;scroll-behavior:smooth}
+    .bubble{width:fit-content;max-width:88%;padding:8px 10px;margin:0 0 8px;border-radius:9px;background:#fff;border:1px solid #e6eae5;color:#39443f;font-size:11px;line-height:1.5}.bubble.agent{background:#e8f0eb;border-color:#e0e9e2;margin-left:auto}
+    .call-error{color:#9e4b40;font-size:11px;line-height:1.4;padding:8px 2px}
+    .call-controls{display:flex;justify-content:center;align-items:center;gap:24px;padding:14px 0 9px}.control{width:54px;height:54px;border:1px solid #e0e5df;border-radius:50%;background:#fff;color:#40514a;display:grid;place-items:center;cursor:pointer;font-size:19px}.control small{display:none}.control.end{background:#a85046;border-color:#a85046;color:#fff;font-size:17px}.control:disabled{opacity:.45;cursor:default}
+    .control-caption{display:flex;justify-content:center;gap:47px;margin-top:-8px;margin-bottom:8px;color:#7c8780;font-size:9px}
+    .manual{display:none;gap:7px;padding-top:9px;border-top:1px solid #e6ebe5}.manual.visible{display:flex}.manual input{flex:1;min-width:0;border:1px solid #dfe5df;background:#fff;border-radius:6px;padding:9px 10px;font:11px var(--sans);outline:none}.manual input:focus{border-color:#85a99d}.manual button{border:0;border-radius:6px;background:var(--teal);color:white;padding:0 13px;font-size:11px;cursor:pointer}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @keyframes rowflash{0%{background:#dbf0e2}100%{background:transparent}}.flash td{animation:rowflash 1.5s ease-out}
+    @media(max-width:900px){.shell{padding:0 22px 30px}.board{grid-template-columns:1fr}.doctor-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.doctor-card{border-right:1px solid #edf0ec}.doctor-card:last-child{border-right:0}}
+    @media(max-width:600px){.shell{padding:0 12px 24px}.topbar{min-height:72px}.clinic-name{font-size:12px}.clinic-sub{font-size:10px}.top-actions{gap:9px}.open-indicator{display:none}.call-button{height:38px;padding:0 12px;font-size:12px}.intro{padding:24px 0 18px;align-items:flex-start;flex-direction:column;gap:8px}.intro h1{font-size:22px}.doctor-list{display:block}.doctor-card{border-right:0}.surface-head{padding:0 14px}.appointments th,.appointments td{padding:12px 10px}.activity-content{padding:14px}.phone{min-height:520px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="identity">
+        <div class="seal" aria-hidden="true">✳</div>
+        <div><div class="clinic-name">St. Jude Outpatient</div><div class="clinic-sub">Front Desk &amp; Voice Scheduling</div></div>
+      </div>
+      <div class="top-actions">
+        <span class="open-indicator" id="systemStatus">Desk open</span>
+        <button class="call-button" id="callOpen">Call Reception</button>
+      </div>
+    </header>
+    <section class="intro">
+      <div><p class="kicker" id="today">CLINIC BOARD</p><h1>Today at the clinic</h1></div>
+      <div class="availability-summary"><p class="intro-note" id="slotSummary">Loading availability…</p><button class="reset-button" id="resetButton" type="button">Reset</button></div>
+    </section>
+    <main>
+      <div class="board">
+        <section class="surface" aria-labelledby="doctorsHeading">
+          <div class="surface-head"><h2 id="doctorsHeading">Doctors on duty</h2><span class="head-note">Available times</span></div>
+          <div class="doctor-list" id="doctorList"></div>
+        </section>
+        <section class="surface" aria-labelledby="appointmentsHeading">
+          <div class="surface-head"><h2 id="appointmentsHeading">Appointments</h2><span class="head-note" id="appointmentCount">0 booked</span></div>
+          <div class="table-wrap">
+            <table class="appointments">
+              <thead><tr><th>Ref</th><th>Caller</th><th>Doctor</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody id="appointmentRows"><tr><td class="empty-row" colspan="5">No appointments yet</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+      <section class="surface activity" aria-labelledby="activityHeading">
+        <div class="surface-head"><h2 id="activityHeading">Call notes</h2><span class="head-note">Live conversation</span></div>
+        <div class="activity-content" id="transcripts"><div class="activity-empty">Transcript will appear here during a call.</div></div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="call-layer" id="callLayer" aria-hidden="true">
+    <section class="phone" role="dialog" aria-modal="true" aria-labelledby="callTitle">
+      <div class="phone-top"><span>ST. JUDE · PRIVATE LINE</span><button id="callClose" aria-label="Close call window">×</button></div>
+      <div class="call-state" id="callState">Ringing…</div>
+      <div class="caller-card"><div class="caller-emblem" aria-hidden="true">✳</div><h2 id="callTitle">Reception</h2><div class="timer" id="timer">00:00</div></div>
+      <div class="wave paused" id="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="conversation" id="conversation" aria-live="polite"><div class="bubble">Connecting you with the front desk…</div></div>
+      <div class="call-error" id="callError" hidden></div>
+      <div class="call-controls">
+        <button class="control" id="muteButton" aria-label="Mute microphone" disabled>⌁</button>
+        <button class="control end" id="endButton" aria-label="End call" disabled>■</button>
+      </div>
+      <div class="control-caption"><span id="muteLabel">Mute</span><span>End call</span></div>
+      <form class="manual" id="manualForm"><label for="manualInput" class="sr-only">Type a message</label><input id="manualInput" placeholder="Type what you would say…" autocomplete="off"><button type="submit">Send</button></form>
+    </section>
+  </div>
+  <audio id="remoteAudio" autoplay playsinline></audio>
+  <script>
+    const els = Object.fromEntries(["callOpen","callClose","callLayer","callState","timer","wave","conversation","callError","muteButton","endButton","muteLabel","remoteAudio","doctorList","appointmentRows","appointmentCount","slotSummary","resetButton","transcripts","toast","today","systemStatus","manualForm","manualInput"].map(id=>[id,document.getElementById(id)]));
+    let peer = null, localStream = null, timerId = null, elapsed = 0, statePoll = null, seenEvent = null, previousRefs = new Set(), isMuted = false, callAttempt = 0, demoMode = false, demoSessionId = null, recognition = null, recognitionUnavailable = false;
+    const api = async (path, options={}) => { const response=await fetch(path,options); if(!response.ok){const body=await response.json().catch(()=>({detail:"Request failed"}));throw new Error(body.detail||"Request failed")} return response.json() };
+    const escapeHtml = value => String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+    function showToast(message, type="booking"){els.toast.textContent=message;els.toast.classList.toggle("cancel",type==="cancellation");els.toast.classList.add("show");setTimeout(()=>els.toast.classList.remove("show"),3200);chime(type)}
+    function chime(type){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();void ctx.resume();const now=ctx.currentTime;[0,0.16].forEach((offset,index)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type="sine";osc.frequency.value=type==="cancellation"?(index?493.88:392):[659.25,783.99][index];gain.gain.setValueAtTime(.0001,now+offset);gain.gain.exponentialRampToValueAtTime(.065,now+offset+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+offset+.19);osc.connect(gain);gain.connect(ctx.destination);osc.start(now+offset);osc.stop(now+offset+.2)});setTimeout(()=>ctx.close(),550)}catch(error){console.debug("Audio confirmation unavailable",error)}}
+    function initials(name){return name.replace("Dr. ","").split(" ").map(part=>part[0]).slice(0,2).join("")}
+    function renderDoctors(doctors){const formatDate=value=>new Date(value+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});els.doctorList.innerHTML=doctors.map(doctor=>`<article class="doctor-card"><div class="doctor-line"><div class="doctor-mark">${escapeHtml(initials(doctor.name))}</div><div><div class="doctor-name">${escapeHtml(doctor.name)}</div><div class="doctor-meta">${escapeHtml(doctor.specialty)}</div></div><div class="room">${escapeHtml(doctor.room)}</div></div><div class="slot-label">OPEN TIMES</div><div class="slots">${doctor.available_slots.length?doctor.available_slots.map(slot=>`<span class="slot" title="${escapeHtml(slot.date)}">${escapeHtml(formatDate(slot.date))} · ${escapeHtml(slot.time)}</span>`).join(""):'<span class="slot empty">No open times</span>'}</div></article>`).join("")}
+    function renderAppointments(appointments){const current=new Set(appointments.map(item=>item.ref));const newRefs=[...current].filter(ref=>!previousRefs.has(ref));els.appointmentCount.textContent=`${appointments.length} ${appointments.length===1?"booked":"booked"}`;els.appointmentRows.innerHTML=appointments.length?appointments.map(item=>`<tr data-ref="${escapeHtml(item.ref)}" class="${newRefs.includes(item.ref)?"flash":""}"><td class="reference ref">${escapeHtml(item.ref)}</td><td class="caller">${escapeHtml(item.caller)}</td><td class="doctor-cell">${escapeHtml(item.doctor)}<small>${escapeHtml(item.specialty)}</small></td><td class="appointment-time">${escapeHtml(item.date)}<br>${escapeHtml(item.time)}</td><td><span class="status ${item.status==="Cancelled"?"cancelled":""}">${escapeHtml(item.status)}</span></td></tr>`).join(""):'<tr><td class="empty-row" colspan="5">No appointments yet</td></tr>';previousRefs=current}
+    function renderTranscripts(transcripts){if(!transcripts.length){els.transcripts.innerHTML='<div class="activity-empty">Transcript will appear here during a call.</div>';return}const greetings=new Set();const unique=transcripts.filter(line=>{const text=String(line.text||"").trim().toLowerCase();if(line.role!=="assistant"||!text.startsWith("hello, this is st. jude outpatient"))return true;const key=`${line.session_id}:${text}`;if(greetings.has(key))return false;greetings.add(key);return true});els.transcripts.innerHTML=unique.slice(-22).map(line=>`<div class="transcript-line"><span class="transcript-role ${line.role==="user"?"caller-role":""}">${line.role==="user"?"Caller":"Reception"}</span><span class="transcript-text">${escapeHtml(line.text)}</span></div>`).join("");els.transcripts.scrollTop=els.transcripts.scrollHeight}
+    async function refresh(){try{const [data,config]=await Promise.all([api("/api/state"),api("/api/config")]);renderDoctors(data.doctors);renderAppointments(data.appointments);renderTranscripts(data.transcripts);els.slotSummary.textContent=`${data.open_slots} appointment times available`;els.systemStatus.textContent=config.voice_enabled?"Desk open":"Local demo ready";if(data.latest_event&&data.latest_event.id!==seenEvent){seenEvent=data.latest_event.id;const item=data.latest_event.appointment;showToast(data.latest_event.type==="booking"?`Appointment confirmed · ${item.ref}`:`Appointment cancelled · ${item.ref}`,data.latest_event.type)}}catch(error){els.systemStatus.textContent="Server unavailable";console.error(error)}}
+    function addBubble(text,role){const bubble=document.createElement("div");bubble.className=`bubble ${role==="agent"?"agent":""}`;bubble.textContent=text;els.conversation.appendChild(bubble);els.conversation.scrollTop=els.conversation.scrollHeight}
+    function setCallState(text,kind=""){els.callState.textContent=text;els.callState.className=`call-state ${kind}`}
+    function runTimer(){clearInterval(timerId);elapsed=0;els.timer.textContent="00:00";timerId=setInterval(()=>{elapsed++;els.timer.textContent=`${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`},1000)}
+    function iceGathered(connection){return new Promise(resolve=>{if(connection.iceGatheringState==="complete")return resolve();const check=()=>{if(connection.iceGatheringState==="complete"){connection.removeEventListener("icegatheringstatechange",check);resolve()}};connection.addEventListener("icegatheringstatechange",check);setTimeout(resolve,8000)})}
+    function speakLocal(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.rate=1;window.speechSynthesis.speak(utterance)}
+    function startBrowserRecognition(attempt){const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SpeechRecognition){recognitionUnavailable=true;els.manualForm.classList.add("visible");showCallError("Speech recognition is not available in this browser. Type your message below.");return}recognition=new SpeechRecognition();recognition.continuous=true;recognition.interimResults=false;recognition.lang=navigator.language||"en-US";recognition.onresult=event=>{const transcript=event.results[event.results.length-1][0].transcript;handleDemoMessage(transcript)};recognition.onerror=event=>{if(event.error!=="no-speech"&&event.error!=="aborted"){recognitionUnavailable=true;showCallError("Microphone speech input failed. You can type a message below.")}if(event.error!=="no-speech")els.manualForm.classList.add("visible")};recognition.onend=()=>{if(demoMode&&!recognitionUnavailable&&!isMuted&&attempt===callAttempt&&els.callLayer.classList.contains("open"))setTimeout(()=>{if(demoMode&&!recognitionUnavailable&&!isMuted&&attempt===callAttempt)try{recognition.start()}catch(error){recognitionUnavailable=true;els.manualForm.classList.add("visible");showCallError("Could not restart speech recognition. Type your message below.")}},250)};try{recognition.start()}catch(error){recognitionUnavailable=true;els.manualForm.classList.add("visible");showCallError("Could not start speech recognition. Type your message below.")}}
+    async function startDemoCall(attempt){const session=await api("/api/demo/start",{method:"POST"});if(attempt!==callAttempt){api("/api/demo/end",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:session.session_id})});return}demoMode=true;demoSessionId=session.session_id;recognitionUnavailable=false;els.manualForm.classList.remove("visible");setCallState("Connected · Local demo","connected");els.wave.classList.remove("paused");els.muteButton.disabled=false;addBubble(session.reply,"agent");speakLocal(session.reply);runTimer();startBrowserRecognition(attempt)}
+    async function handleDemoMessage(text){if(!demoMode||!demoSessionId)return;addBubble(text,"caller");try{const response=await api("/api/demo/turn",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:demoSessionId,message:text})});addBubble(response.reply,"agent");speakLocal(response.reply);refresh()}catch(error){showCallError(error.message||"Could not process that message.")}}
+    async function startCall(){const attempt=++callAttempt;els.callLayer.classList.add("open");els.callLayer.setAttribute("aria-hidden","false");els.callError.hidden=true;els.conversation.innerHTML="";els.manualForm.classList.remove("visible");setCallState("Ringing…");els.callOpen.disabled=true;els.endButton.disabled=false;isMuted=false;demoMode=false;els.muteLabel.textContent="Mute";els.muteButton.setAttribute("aria-label","Mute microphone");statePoll=setInterval(refresh,1400);
+      try{const config=await api("/api/config");if(attempt!==callAttempt)return;if(!config.voice_enabled){await startDemoCall(attempt);return}const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});if(attempt!==callAttempt){stream.getTracks().forEach(track=>track.stop());return}localStream=stream;const connection=new RTCPeerConnection({iceServers:[{urls:"stun:stun.l.google.com:19302"}]});peer=connection;stream.getTracks().forEach(track=>connection.addTrack(track,stream));connection.ontrack=event=>{els.remoteAudio.srcObject=event.streams[0];els.remoteAudio.play().catch(()=>{})};connection.onconnectionstatechange=()=>{if(peer===connection&&["failed","disconnected"].includes(connection.connectionState)){showCallError("The voice connection was interrupted. Try calling again.");setCallState("Connection interrupted","ended")}};const offer=await connection.createOffer();await connection.setLocalDescription(offer);await iceGathered(connection);const answer=await api("/api/offer",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sdp:connection.localDescription.sdp,type:connection.localDescription.type})});if(attempt!==callAttempt){connection.close();return}await connection.setRemoteDescription({sdp:answer.sdp,type:answer.type});setCallState("Connected","connected");els.wave.classList.remove("paused");addBubble("Connected. How can I help with your appointment?","agent");els.muteButton.disabled=false;runTimer()}catch(error){if(attempt!==callAttempt)return;console.error(error);showCallError(error.message||"Unable to connect. Check microphone permission and server configuration.");setCallState("Call Ended","ended");els.wave.classList.add("paused");if(peer){peer.close();peer=null}if(localStream){localStream.getTracks().forEach(track=>track.stop());localStream=null}els.endButton.disabled=true;els.muteButton.disabled=true;els.callOpen.disabled=false;clearInterval(statePoll);statePoll=null} }
+    function showCallError(message){els.callError.textContent=message;els.callError.hidden=false}
+    async function endCall(){callAttempt++;clearInterval(timerId);clearInterval(statePoll);statePoll=null;if(recognition){recognition.onend=null;recognition.stop();recognition=null}if(demoSessionId){fetch("/api/demo/end",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:demoSessionId})}).catch(console.error);demoSessionId=null}demoMode=false;window.speechSynthesis?.cancel();if(peer){peer.close();peer=null}if(localStream){localStream.getTracks().forEach(track=>track.stop());localStream=null}els.remoteAudio.srcObject=null;els.wave.classList.add("paused");setCallState("Call Ended","ended");els.endButton.disabled=true;els.muteButton.disabled=true;els.callOpen.disabled=false;if(els.callLayer.classList.contains("open"))addBubble("Call ended.","agent")}
+    els.callOpen.addEventListener("click",startCall);els.callClose.addEventListener("click",async()=>{await endCall();els.callLayer.classList.remove("open");els.callLayer.setAttribute("aria-hidden","true")});els.endButton.addEventListener("click",endCall);
+    els.resetButton.addEventListener("click",async()=>{els.resetButton.disabled=true;try{await api("/api/reset",{method:"POST"});previousRefs=new Set();await refresh()}catch(error){console.error(error);els.systemStatus.textContent="Reset failed"}finally{els.resetButton.disabled=false}});
+    els.muteButton.addEventListener("click",()=>{isMuted=!isMuted;if(demoMode&&recognition&&!recognitionUnavailable){if(isMuted)recognition.stop();else try{recognition.start()}catch(error){console.debug("Speech recognition restart deferred",error)}}else if(localStream)localStream.getAudioTracks().forEach(track=>track.enabled=!isMuted);els.muteLabel.textContent=isMuted?"Unmute":"Mute";els.muteButton.setAttribute("aria-label",isMuted?"Unmute microphone":"Mute microphone")});
+    els.manualForm.addEventListener("submit",event=>{event.preventDefault();const text=els.manualInput.value.trim();if(text){els.manualInput.value="";handleDemoMessage(text)}});
+    els.callLayer.addEventListener("click",event=>{if(event.target===els.callLayer)els.callClose.click()});document.addEventListener("keydown",event=>{if(event.key==="Escape"&&els.callLayer.classList.contains("open"))els.callClose.click()});
+    refresh();setInterval(refresh,5000);
+  </script>
+</body>
+</html>
